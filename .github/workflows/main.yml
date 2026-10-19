@@ -17,4 +17,4 @@ jobs:
 
       - name: 4. Chạy bộ Test tự động
         run: |
-          newman run "My Collection.postman_collection.json" -e "RestfulBooker Env.postman_environment.json"
+          newman run "My Collection.postman_collection.json" -e "RestfulBooker Env.postman_environment.json" -d "booking_data.csv"
