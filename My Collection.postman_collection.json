@@ -2,10 +2,7 @@
   "info": {
     "_postman_id": "ca4e87f8-fdcc-410e-b2b5-75ab682a35b6",
     "name": "My Collection",
-    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "59055761",
-    "_collection_link": "https://go.postman.co/collection/59055761-ca4e87f8-fdcc-410e-b2b5-75ab682a35b6?source=collection_link"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
@@ -39,14 +36,8 @@
             "url": {
               "raw": "https://restful-booker.herokuapp.com/auth",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "auth"
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["auth"]
             }
           },
           "response": []
@@ -59,7 +50,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Tạo booking thành công (Status 200)\", function () {\n    pm.response.to.have.status(200);\n});\n\n// Kiểm tra tên khách hàng khớp với dữ liệu từ file CSV\npm.test(\"Tên khách hàng khớp với dữ liệu đầu vào\", function () {\n    if (pm.response.code === 200) {\n        var jsonData = pm.response.json();\n        var expectedFirstName = pm.iterationData.get(\"firstname\");\n        pm.expect(jsonData.booking.firstname).to.eql(expectedFirstName);\n    } else {\n        pm.expect.fail(\"Cannot validate booking data because response status is \" + pm.response.code);\n    }\n});\n\n// Lưu lại bookingid vào môi trường nếu thành công\nif (pm.response.code === 200) {\n    var jsonData = pm.response.json();\n    pm.environment.set(\"bookingid\", jsonData.bookingid);\n}"
+                  "pm.test(\"Tạo booking thành công (Status 200)\", function () {\n    pm.response.to.have.status(200);\n});\n\n// Kiểm tra tên khách hàng khớp với dữ liệu từ file CSV\npm.test(\"Tên khách hàng khớp với dữ liệu đầu vào\", function () {\n    var jsonData = pm.response.json();\n    var expectedFirstName = pm.iterationData.get(\"firstname\") || pm.iterationData.get(\"\\ufefffirstname\");\n    pm.expect(jsonData.booking.firstname).to.eql(expectedFirstName);\n});\n\n// Lưu lại bookingid vào môi trường\nvar jsonData = pm.response.json();\npm.environment.set(\"bookingid\", jsonData.bookingid);"
                 ]
               }
             }
@@ -69,7 +60,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"firstname\": \"Nguyen\",\n    \"lastname\": \"Jim\",\n    \"totalprice\": 111,\n    \"depositpaid\": true,\n    \"bookingdates\": {\n        \"checkin\": \"2024-01-01\",\n        \"checkout\": \"2024-01-02\"\n    },\n    \"additionalneeds\": \"Breakfast\"\n}",
+              "raw": "{\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\",\n    \"totalprice\": {{totalprice}},\n    \"depositpaid\": {{depositpaid}},\n    \"bookingdates\": {\n        \"checkin\": \"{{checkin}}\",\n        \"checkout\": \"{{checkout}}\"\n    },\n    \"additionalneeds\": \"{{additionalneeds}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -79,14 +70,8 @@
             "url": {
               "raw": "https://restful-booker.herokuapp.com/booking",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "booking"
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["booking"]
             }
           },
           "response": []
@@ -108,17 +93,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://restful-booker.herokuapp.com/booking/",
+              "raw": "https://restful-booker.herokuapp.com/booking/{{bookingid}}",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "booking",
-                ""
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["booking", "{{bookingid}}"]
             }
           },
           "response": []
@@ -131,7 +109,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Xóa thành công (Status 201 Created)\", function () {\n    pm.response.to.have.status(201);\n});\n"
+                  "pm.test(\"Xóa thành công (Status 201 Created)\", function () {\n    pm.response.to.have.status(201);\n});"
                 ]
               }
             }
@@ -147,15 +125,8 @@
             "url": {
               "raw": "https://restful-booker.herokuapp.com/booking/{{bookingid}}",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "booking",
-                "{{bookingid}}"
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["booking", "{{bookingid}}"]
             }
           },
           "response": []
@@ -182,17 +153,10 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "https://restful-booker.herokuapp.com/booking/){{bookingid}",
+              "raw": "https://restful-booker.herokuapp.com/booking/{{bookingid}}",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "booking",
-                "){{bookingid}"
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["booking", "{{bookingid}}"]
             }
           },
           "response": []
@@ -225,14 +189,8 @@
             "url": {
               "raw": "https://restful-booker.herokuapp.com/auth",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "auth"
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["auth"]
             }
           },
           "response": []
@@ -265,14 +223,8 @@
             "url": {
               "raw": "https://restful-booker.herokuapp.com/booking",
               "protocol": "https",
-              "host": [
-                "restful-booker",
-                "herokuapp",
-                "com"
-              ],
-              "path": [
-                "booking"
-              ]
+              "host": ["restful-booker", "herokuapp", "com"],
+              "path": ["booking"]
             }
           },
           "response": []
